@@ -1,0 +1,83 @@
+<?php
+error_reporting(0);
+$error = array(
+);
+
+if (!empty($_POST))
+{
+    $name= isset($_POST['name']) ? trim($_POST['name']) : null;
+    $lastname= isset($_POST['lastname']) ? trim($_POST['lastname']) : null;
+    $email = isset($_POST['email']) ? trim($_POST['email']) : null;
+    $telephone = isset($_POST['telephone']) ? trim($_POST['telephone']) : null;
+
+    foreach (['name', 'lastname', 'email', 'telephone'] as $key)
+    {
+        if(empty($$key))
+        {
+            $error[$key] = true;
+        }
+    }
+
+    if (empty($error))
+    {
+        $contents = '<?php' . "\n"
+        . 'return'
+        . var_export([
+            'name' => $name,
+            'lastname' => $lastname,
+            'email' => $email,
+            'telephone' => $telephone,
+            'topic' => $topic,
+            'pay' => $pay,
+        ], true);
+
+        $filename = date('Y-m-d-H-i-s') . '-' . rand(010, 99) . '.txt';
+        file_put_contents("formfile\\".$filename, $contents);
+        header('Location: form.php');
+        exit;
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Form</title>
+</head> 
+<body>
+    <h1>Форма регистрации на конферецию</h1>
+    <form method="POST">
+        <p>Введите имя</p>
+        <p><input type="text" name="name" value = "<?= isset($_POST['name']) ? $_POST['name']: ''?>" required></p>
+        <p>Введите фамилию</p>
+        <p><input type="text" name="lastname" value = "<?= isset($_POST['lastname']) ? $_POST['lastname']: ''?>" required></p>
+        <p>Введите электронный адрес</p>
+        <p><input type="email" name="email" value = "<?= isset($_POST['email']) ? $_POST['email']: ''?>" required></p>
+        <p>Введите номер телефона</p>
+        <p><input type="text" name="telephone" value = "<?= isset($_POST['telephone']) ? $_POST['telephone']: ''?>" required></p>
+        <p>Выберете тематику конференции</p>
+        <select name="topic"> 
+            <optgroup> 
+                <option value="business">Бизнес</option> 
+                <option value="technology">Технологии</option>
+                <option value="marketing">Реклама и Маркетинг</option>
+            </optgroup>
+        </select>
+        <p>Выберете вариант оплаты</p>
+        <select name="pay"> 
+            <optgroup> 
+                <option value="webmoney">WebMoney</option> 
+                <option value="yandex">Яндекс.Деньги</option>
+                <option value="paypal">PayPal</option>
+                <option value="credit">Кредитная карта</option>
+            </optgroup>
+        </select>
+        <p>Согласие на получение новостей по конференции<input type="checkbox" name="check">
+            
+        <p><input type="submit" value="Отправить"></p>
+    </form>
+    <form action="admin.php">
+        <p><input type="submit" value="Администратор"></p>
+    </form>
+</body>
+</html> 
