@@ -9,8 +9,11 @@ if (!empty($_POST))
     $lastname= isset($_POST['lastname']) ? trim($_POST['lastname']) : null;
     $email = isset($_POST['email']) ? trim($_POST['email']) : null;
     $telephone = isset($_POST['telephone']) ? trim($_POST['telephone']) : null;
+    $topic = isset($_POST['topic']) ? trim($_POST['topic']) : null;
+    $pay = isset($_POST['pay']) ? trim($_POST['pay']) : null;
+    $check = isset($_POST['check']) ? 'yes' : 'no';
 
-    foreach (['name', 'lastname', 'email', 'telephone'] as $key)
+    foreach (['name', 'lastname', 'email', 'telephone', 'topic', 'pay'] as $key)
     {
         if(empty($$key))
         {
@@ -29,6 +32,7 @@ if (!empty($_POST))
             'telephone' => $telephone,
             'topic' => $topic,
             'pay' => $pay,
+            'check' => $check,
         ], true);
 
         $filename = date('Y-m-d-H-i-s') . '-' . rand(010, 99) . '.txt';
